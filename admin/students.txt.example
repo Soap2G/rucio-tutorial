@@ -1,0 +1,4 @@
+# One Rucio account per line (the IAM username, as created by the IAM sync).
+# Copy to students.txt (not committed).
+student-one
+student-two
