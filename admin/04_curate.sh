@@ -15,9 +15,9 @@ $EMBARGO_SCOPE:survey/wave-2026/|csv|Pseudonymised survey responses, wave 2026 (
 while IFS='|' read -r did datatype description; do
   echo "--- $did"
   run rucio did update --close "$did" || echo "      already closed"
-  run rucio did metadata set "$did" --key datatype --value "$datatype"
+  run rucio did metadata "$SET" "$did" --key datatype --value "$datatype"
   # Custom keys need a JSON metadata plugin on the server; the tutorial does not depend on them.
-  run rucio did metadata set "$did" --key description --value "$description" 2>/dev/null \
+  run rucio did metadata "$SET" "$did" --key description --value "$description" 2>/dev/null \
     || echo "      custom metadata key not supported by the server (OK)"
 done <<< "$DATASETS"
 

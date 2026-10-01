@@ -26,7 +26,7 @@ while read -r account _; do
   fi
 
   for rse in $(rse_names); do
-    run rucio account limit set "$account" --rse "$rse" --bytes "$STUDENT_QUOTA" > /dev/null
+    run rucio account limit "$SET" "$account" --rse "$rse" --bytes "$STUDENT_QUOTA" > /dev/null
   done
   echo "      quota $STUDENT_QUOTA on $(rse_names | wc -l | tr -d " ") RSEs"
 
