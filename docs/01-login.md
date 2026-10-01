@@ -1,6 +1,6 @@
 # 1. Log in (5 min)
 
-You did `source setup.sh <account>` in the [README](../README.md). If not, do it now.
+You did `source setup.sh <account>` on the [home page](index.md). If not, do it now.
 
 ## 1.1 Who am I?
 

@@ -32,7 +32,7 @@
 | `TRIESTE_DISK` | one RSE |
 | `country=IT` | all RSEs with the attribute `country=IT` |
 | `A&B` | in A and in B |
-| `A\|B` | in A or in B |
+| <code>A&#124;B</code> | in A or in B |
 | `A\B` | in A but not in B |
 
 ## Lifetimes

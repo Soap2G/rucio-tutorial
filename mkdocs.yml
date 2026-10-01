@@ -1,0 +1,46 @@
+site_name: Rucio tutorial
+site_description: Hands-on introduction to Rucio data management, with role-based access control
+repo_url: https://gitlab.cern.ch/gguerrie/rucio-tutorial
+repo_name: gguerrie/rucio-tutorial
+edit_uri: -/edit/main/docs/
+
+nav:
+  - Home: index.md
+  - 0. Concepts: 00-concepts.md
+  - 1. Log in: 01-login.md
+  - 2. Explore the data: 02-explore.md
+  - 3. Manage data: 03-manage.md
+  - 4. Roles and access control: 04-rbac.md
+  - 5. Wrap-up: 05-wrap-up.md
+  - Cheatsheet: cheatsheet.md
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.footer
+    - navigation.top
+    - toc.follow
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences

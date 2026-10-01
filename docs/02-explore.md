@@ -30,7 +30,7 @@ rucio rse list --rses 'TRIESTE_DISK|GENEVA_ARCHIVE'
 | Operator | Meaning |
 |---|---|
 | `A&B` | in A **and** in B |
-| `A\|B` | in A **or** in B |
+| <code>A&#124;B</code> | in A **or** in B |
 | `A\B` | in A **but not** in B |
 
 **Exercise 2.1.** Write an expression that selects all DISK RSEs that are not in Italy. Check it with `rucio rse list --rses`.

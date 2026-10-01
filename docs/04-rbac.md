@@ -65,7 +65,8 @@ Expected result: `mdmc-embargo` is not in the scope list, and the other two comm
 Look at the message: Rucio does not say "you cannot read it". It says that the DID does not exist **or** is outside your scopes.
 So a user without access cannot even learn that the data exists.
 
-> Stop here and wait for the instructor.
+!!! warning "Stop"
+    Stop here and wait for the instructor.
 
 ## 4.4 The instructor gives you access, for 15 minutes
 

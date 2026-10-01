@@ -1,56 +1,21 @@
 # Rucio tutorial: data management with roles
 
-A hands-on introduction to [Rucio](https://rucio.cern.ch), the scientific data management system, from the command line.
-It is for first-time users from any discipline. No physics knowledge is necessary.
+A 90-minute, hands-on introduction to [Rucio](https://rucio.cern.ch) from the command line, for first-time users from any discipline,
+with a chapter on role-based access control (RBAC). First given for the SISSA Master in Data Management and Curation (MDMC).
 
-Duration: 90 minutes.
+**Students:** read the tutorial on the website. The source of the pages is in [`docs/`](docs/index.md).
 
-## What you will learn
+## Repository layout
 
-- The Rucio data model: accounts, scopes, files, datasets, containers, storage elements (RSEs) and rules.
-- How to find data, read its metadata, and download it.
-- How to organise data in your own datasets and keep copies of it with rules.
-- How role-based access control (RBAC) decides which data you can see, and for how long.
+| Path | Content |
+|---|---|
+| `docs/` | Tutorial pages (MkDocs). Built and published by GitLab CI with the CERN [mkdocs-ci](https://gitlab.cern.ch/authoring/documentation/mkdocs-ci) template. |
+| `setup.sh` | Sets up a SWAN terminal: loads the Rucio RBAC client from CVMFS (`/cvmfs/sw.escape.eu/rucio/41.1.1-rbac`). |
+| `admin/` | For organisers: [preparation of the Rucio instance](admin/README.md) and [instructor guide](admin/INSTRUCTOR.md). Not published on the website. |
 
-## Before you start
+## Build the website locally
 
-- You have an account on the IAM of the CERN EOSC Node, and the organisers have added you to the tutorial group. Your **Rucio account** is your IAM username.
-- You can open SWAN (JupyterLab).
-
-## Start
-
-1. Open SWAN. Open a **Terminal** (File → New → Terminal).
-2. Get the tutorial and set up the terminal:
-
-   ```bash
-   git clone https://github.com/Soap2G/rucio-tutorial.git
-   cd rucio-tutorial
-   source setup.sh <your-rucio-account>
-   ```
-
-3. Open the chapters in the JupyterLab file browser (right-click → Open With → Markdown Preview). Keep the terminal next to them.
-
-> If you open a new terminal, go to `rucio-tutorial` and run `source setup.sh <your-rucio-account>` again.
-
-## Chapters
-
-| # | Chapter | Time |
-|---|---|---|
-| 0 | [Concepts](tutorial/00-concepts.md) | 10 min |
-| 1 | [Log in](tutorial/01-login.md) | 5 min |
-| 2 | [Explore the data](tutorial/02-explore.md) | 15 min |
-| 3 | [Manage data with datasets and rules](tutorial/03-manage.md) | 25 min |
-| 4 | [Roles and access control](tutorial/04-rbac.md) | 25 min |
-| 5 | [Wrap-up](tutorial/05-wrap-up.md) | 10 min |
-
-A one-page summary of all commands is in [cheatsheet.md](cheatsheet.md).
-
-## Conventions
-
-- `<account>` means your Rucio account. Type it without the `< >`.
-- Code blocks are commands for you to type (or copy) in the terminal.
-- "Expected result" shows what you see when the step is correct. The values can be a little different.
-
-## For organisers
-
-The preparation of the Rucio instance is in [admin/](admin/README.md). The guide for the instructor is in [admin/INSTRUCTOR.md](admin/INSTRUCTOR.md).
+```bash
+pip install mkdocs==1.6.1 mkdocs-material==9.7.7
+mkdocs serve
+```
