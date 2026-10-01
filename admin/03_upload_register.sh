@@ -20,12 +20,17 @@ if [ ! -d "$DEST" ]; then
   echo "ERROR: $DEST is not visible. Use a host with the EOS FUSE mount." >&2
   exit 1
 fi
-rsync -a --checksum "$STAGING"/ "$DEST"/
-echo "Copied $(find "$STAGING" -type f | wc -l) files"
+if [ "${DRY_RUN:-0}" = 1 ]; then
+  rsync -a --checksum --dry-run --itemize-changes "$STAGING"/ "$DEST"/
+else
+  rsync -a --checksum "$STAGING"/ "$DEST"/
+  echo "Copied $(find "$STAGING" -type f | wc -l) files"
+fi
 
 echo "=== 3c. Register (dry run)"
 rucio-it-register --rse-name "$SOURCE_RSE" --dump-file "$DUMP" --rule --batch-size 100 --dry-run
 
+if [ "${DRY_RUN:-0}" = 1 ]; then echo "DRY RUN: stop before the real registration."; exit 0; fi
 read -r -p "Dry run OK? Register for real [y/N] " answer
 [ "$answer" = "y" ] || { echo "Stopped before registration."; exit 0; }
 

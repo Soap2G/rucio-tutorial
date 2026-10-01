@@ -15,28 +15,28 @@ for spec in $RSES; do
   fi
 
   echo "ADD   $rse ($country, $site, $type)"
-  rucio rse add "$rse"
-  rucio rse update "$rse" --key rse_type --value DISK
-  rucio rse attribute set "$rse" --key lfn2pfn_algorithm --value identity
-  rucio rse attribute set "$rse" --key fts --value "$FTS"
-  rucio rse attribute set "$rse" --key country --value "$country"
-  rucio rse attribute set "$rse" --key site --value "$site"
-  rucio rse attribute set "$rse" --key type --value "$type"
+  run rucio rse add "$rse"
+  run rucio rse update "$rse" --key rse_type --value DISK
+  run rucio rse attribute set "$rse" --key lfn2pfn_algorithm --value identity
+  run rucio rse attribute set "$rse" --key fts --value "$FTS"
+  run rucio rse attribute set "$rse" --key country --value "$country"
+  run rucio rse attribute set "$rse" --key site --value "$site"
+  run rucio rse attribute set "$rse" --key type --value "$type"
 
-  rucio rse protocol add "$rse" \
+  run rucio rse protocol add "$rse" \
     --hostname "$EOS_HOST" --scheme https --port "$EOS_PORT" \
     --prefix "/$EOS_BASE/$rse" \
     --impl rucio.rse.protocols.gfal.Default \
     --domain-json "$DOMAINS"
 
-  rucio account limit set root --rse "$rse" --bytes infinity
+  run rucio account limit set root --rse "$rse" --bytes infinity
 done
 
 echo "Distances (all pairs, 1)"
 for src in $(rse_names); do
   for dst in $(rse_names); do
     [ "$src" = "$dst" ] && continue
-    rucio rse distance set "$src" "$dst" --distance 1 2>/dev/null \
+    run rucio rse distance set "$src" "$dst" --distance 1 2>/dev/null \
       || echo "      distance $src -> $dst exists"
   done
 done

@@ -14,10 +14,10 @@ $EMBARGO_SCOPE:survey/wave-2026/|csv|Pseudonymised survey responses, wave 2026 (
 
 while IFS='|' read -r did datatype description; do
   echo "--- $did"
-  rucio did update --close "$did" || echo "      already closed"
-  rucio did metadata set "$did" --key datatype --value "$datatype"
+  run rucio did update --close "$did" || echo "      already closed"
+  run rucio did metadata set "$did" --key datatype --value "$datatype"
   # Custom keys need a JSON metadata plugin on the server; the tutorial does not depend on them.
-  rucio did metadata set "$did" --key description --value "$description" 2>/dev/null \
+  run rucio did metadata set "$did" --key description --value "$description" 2>/dev/null \
     || echo "      custom metadata key not supported by the server (OK)"
 done <<< "$DATASETS"
 
@@ -25,7 +25,7 @@ echo "=== Second copy of the climate data on $ARCHIVE_RSE (FTS transfer)"
 if rucio rule list --did "$OPEN_SCOPE:climate" | grep -q "$ARCHIVE_RSE"; then
   echo "SKIP  rule exists"
 else
-  rucio rule add "$OPEN_SCOPE:climate" --copies 1 --rses "$ARCHIVE_RSE" \
+  run rucio rule add "$OPEN_SCOPE:climate" --copies 1 --rses "$ARCHIVE_RSE" \
     --comment "Tutorial: preservation copy of the climate data"
 fi
 rucio rule list --did "$OPEN_SCOPE:climate"

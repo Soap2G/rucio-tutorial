@@ -17,15 +17,15 @@ case "$action" in
     expires="$(python3 -c "import datetime as d; print((d.datetime.now(d.timezone.utc) + d.timedelta(minutes=$minutes)).strftime('%Y-%m-%dT%H:%M:%S'))")"
     echo "Grant $EMBARGO_ROLE until $expires UTC"
     for a in $(students); do
-      rucio role account add "$EMBARGO_ROLE" "$a" --expires-at "$expires" --force \
-        || rucio role account update "$EMBARGO_ROLE" "$a" --expires-at "$expires"
+      run rucio role account add "$EMBARGO_ROLE" "$a" --expires-at "$expires" --force \
+        || run rucio role account update "$EMBARGO_ROLE" "$a" --expires-at "$expires"
       echo "  $a"
     done
     ;;
   end)
     echo "Remove $EMBARGO_ROLE now"
     for a in $(students); do
-      rucio role account remove "$EMBARGO_ROLE" "$a" --force && echo "  $a"
+      run rucio role account remove "$EMBARGO_ROLE" "$a" --force && echo "  $a"
     done
     ;;
   *)

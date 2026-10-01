@@ -22,11 +22,11 @@ while read -r account _; do
   if rucio scope list --account "$account" | grep -qw "$account"; then
     echo "      scope OK"
   else
-    rucio scope add "$account" --account "$account" && echo "      scope ADDED"
+    run rucio scope add "$account" --account "$account" && echo "      scope ADDED"
   fi
 
   for rse in $(rse_names); do
-    rucio account limit set "$account" --rse "$rse" --bytes "$STUDENT_QUOTA" > /dev/null
+    run rucio account limit set "$account" --rse "$rse" --bytes "$STUDENT_QUOTA" > /dev/null
   done
   echo "      quota $STUDENT_QUOTA on $(rse_names | wc -l | tr -d " ") RSEs"
 

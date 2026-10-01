@@ -9,7 +9,7 @@ for scope in "$OPEN_SCOPE" "$EMBARGO_SCOPE"; do
     echo "SKIP  scope $scope exists"
   else
     echo "ADD   scope $scope (owner $SCOPE_OWNER)"
-    rucio scope add "$scope" --account "$SCOPE_OWNER"
+    run rucio scope add "$scope" --account "$SCOPE_OWNER"
   fi
 done
 
@@ -22,9 +22,9 @@ add_role () {
     return
   fi
   echo "ADD   role $name (assignable=$assignable, read on $scope)"
-  rucio role add "$name" --description "$description" --assignable "$assignable" --locked false
-  rucio role permission add "$name" read "$scope"
-  rucio role update "$name" --locked true
+  run rucio role add "$name" --description "$description" --assignable "$assignable" --locked false
+  run rucio role permission add "$name" read "$scope"
+  run rucio role update "$name" --locked true
 }
 
 add_role "$STUDENT_ROLE" true  "$OPEN_SCOPE" \

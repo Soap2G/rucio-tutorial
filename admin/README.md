@@ -47,6 +47,9 @@ container `<topic>`, container `<topic>/<collection>`, dataset `<topic>/<collect
 
 Do the steps in this sequence. Each script is safe to run again.
 
+To see what a step will do first, run it with `DRY_RUN=1`, for example `DRY_RUN=1 ./01_rses.sh`.
+Read-only calls (`show`, `list`) still run; each write call is only printed. In step 3, `rsync` only lists the changes and the script stops after the `rucio-it-register --dry-run`.
+
 | Step | Command | When | Result |
 |---|---|---|---|
 | 1 | `./01_rses.sh` | once | 4 RSEs, protocol, attributes, distances, unlimited quota for `root` |
