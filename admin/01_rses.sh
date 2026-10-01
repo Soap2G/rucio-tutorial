@@ -37,9 +37,11 @@ for src in $(rse_names); do
   for dst in $(rse_names); do
     [ "$src" = "$dst" ] && continue
     run rucio rse distance set "$src" "$dst" --distance 1 2>/dev/null \
-      || echo "      distance $src -> $dst exists"
+      || echo "      distance $src -> $dst not set (it exists already, or an RSE is missing)"
   done
 done
+
+[ "${DRY_RUN:-0}" = 1 ] && exit 0
 
 echo "Check"
 for rse in $(rse_names); do
