@@ -3,7 +3,7 @@
 A 90-minute, hands-on introduction to [Rucio](https://rucio.cern.ch) from the command line, for first-time users from any discipline,
 with a chapter on role-based access control (RBAC). First given for the SISSA Master in Data Management and Curation (MDMC).
 
-**Students:** read the tutorial on the website. The source of the pages is in [`docs/`](docs/index.md).
+**Students:** read the tutorial at **<https://rucio-tutorial.docs.cern.ch>**. The source of the pages is in [`docs/`](docs/index.md).
 
 ## Repository layout
 

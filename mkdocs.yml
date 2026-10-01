@@ -1,4 +1,5 @@
 site_name: Rucio tutorial
+site_url: https://rucio-tutorial.docs.cern.ch/
 site_description: Hands-on introduction to Rucio data management, with role-based access control
 repo_url: https://gitlab.cern.ch/gguerrie/rucio-tutorial
 repo_name: gguerrie/rucio-tutorial
