@@ -66,9 +66,6 @@ Do the steps in this sequence. Each script is safe to run again.
 ## During the course
 
 See `INSTRUCTOR.md` for the timeline, the upload demo and the live RBAC step (`./embargo_access.sh grant 15` / `end`).
-
-The scripts use bash 4 features (`declare -A`). Run them on lxplus or Linux, not with the macOS default bash 3.2.
-
 ## After the course
 
 These commands remove data. Run them only when the course is finished.

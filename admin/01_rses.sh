@@ -6,8 +6,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/tutorial.env"
 
 DOMAINS='{"lan": {"read": 1, "write": 1, "delete": 1}, "wan": {"read": 1, "write": 1, "delete": 1, "third_party_copy_read": 1, "third_party_copy_write": 1}}'
 
-for rse in "${!RSE_ATTRS[@]}"; do
-  read -r country site type <<< "${RSE_ATTRS[$rse]}"
+for spec in $RSES; do
+  IFS=: read -r rse country site type <<< "$spec"
 
   if rucio rse show "$rse" > /dev/null 2>&1; then
     echo "SKIP  $rse exists"
@@ -33,8 +33,8 @@ for rse in "${!RSE_ATTRS[@]}"; do
 done
 
 echo "Distances (all pairs, 1)"
-for src in "${!RSE_ATTRS[@]}"; do
-  for dst in "${!RSE_ATTRS[@]}"; do
+for src in $(rse_names); do
+  for dst in $(rse_names); do
     [ "$src" = "$dst" ] && continue
     rucio rse distance set "$src" "$dst" --distance 1 2>/dev/null \
       || echo "      distance $src -> $dst exists"
@@ -42,7 +42,7 @@ for src in "${!RSE_ATTRS[@]}"; do
 done
 
 echo "Check"
-for rse in "${!RSE_ATTRS[@]}"; do
+for rse in $(rse_names); do
   echo "--- $rse"
   rucio rse attribute list "$rse"
 done

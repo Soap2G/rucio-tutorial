@@ -25,10 +25,10 @@ while read -r account _; do
     rucio scope add "$account" --account "$account" && echo "      scope ADDED"
   fi
 
-  for rse in "${!RSE_ATTRS[@]}"; do
+  for rse in $(rse_names); do
     rucio account limit set "$account" --rse "$rse" --bytes "$STUDENT_QUOTA" > /dev/null
   done
-  echo "      quota $STUDENT_QUOTA on ${#RSE_ATTRS[@]} RSEs"
+  echo "      quota $STUDENT_QUOTA on $(rse_names | wc -l | tr -d " ") RSEs"
 
   if rucio role account list --account "$account" | grep -qw "$STUDENT_ROLE"; then
     echo "      role $STUDENT_ROLE OK"

@@ -10,7 +10,7 @@ check () {  # check "<description>" <command...>
 }
 
 check "server reachable" rucio ping
-for rse in "${!RSE_ATTRS[@]}"; do
+for rse in $(rse_names); do
   check "RSE $rse" rucio rse show "$rse"
 done
 check "RSE expression country=IT gives 2 RSEs" \
