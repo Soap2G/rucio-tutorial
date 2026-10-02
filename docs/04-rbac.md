@@ -6,10 +6,20 @@ A data manager must be able to say: "this group can read these data, until this 
 This Rucio instance uses **role-based access control (RBAC)**:
 
 ```
-account ──has──▶ role ──grants──▶ permission = operation on a scope pattern
-          (optional        e.g. "read" on "mdmc-open"
-           expiry date)        or "read" on "mdmc-*"
+┌─────────┐  has   ┌──────┐  grants   ┌───────────────────────────┐
+│ account │───────>│ role │──────────>│        permission         │
+└─────────┘   │    └──────┘           │ operation + scope pattern │
+              │                       └───────────────────────────┘
+   (optional expiry date)
 ```
+
+Examples of permissions:
+
+| Operation | Scope pattern | Gives access to                           |
+|-----------|---------------|-------------------------------------------|
+| `read`    | `mdmc-open`   | only the scope `mdmc-open`                |
+| `read`    | `mdmc-*`      | all scopes whose name starts with `mdmc-` |
+|
 
 Rucio checks the access to a scope in this sequence:
 
@@ -18,8 +28,22 @@ Rucio checks the access to a scope in this sequence:
 3. Does the account have a role with a permission for this scope and this operation, which has not expired? Then yes.
 4. Otherwise, no. Rucio hides the scope and its DIDs.
 
-In this version, roles control **read** access: listing, details, metadata, replicas and download.
+In the following examples, roles control **read** access: listing, details, metadata, replicas and download.
 To create or change DIDs, you must be the owner of the scope (step 2), as in standard Rucio.
+
+### How to read the operations in the CLI
+
+The CLI shows the operations of a permission in a short form with three letters.
+The letters are always in the same order: **r**ead, **w**rite, **d**elete.
+A `-` means that the operation is not given.
+
+| CLI shows | Meaning |
+|---|---|
+| `r--` | read |
+| `rw-` | read, write |
+| `rwd` | read, write, delete |
+
+In theory, any combination is valid (e.g. `-w-`= _write_ only, `r-d`=_read_ and _delete_ etc.) which may be useful for some special cases. In the following examples, roles give only give read access, so you will see `r--`.
 
 ## 4.1 Your roles
 
@@ -27,13 +51,17 @@ To create or change DIDs, you must be the owner of the scope (step 2), as in sta
 rucio role account list --me --detail
 ```
 
-Expected result: the role `mdmc-student`, with the permission `read` on `mdmc-open`, and no expiry date.
+Expected result: the role `mdmc-student`, with no expiry date. Under the role name, you see `r--  mdmc-open`: read on the scope `mdmc-open`.
 
-You can see the permissions of a role that you have:
+You can see the permissions of a role that you are granted to:
 
 ```bash
 rucio role permission list mdmc-student
 ```
+
+Expected result: a read permission on scope `mdmc-open`.
+
+If a scope pattern has a `*` (for example `mdmc-*`), add `--detail` to see the scopes that it matches now.
 
 But you cannot see all the roles:
 
@@ -41,7 +69,7 @@ But you cannot see all the roles:
 rucio role list
 ```
 
-Expected result: an access error. Only administrators can see all roles.
+Expected result: an _access denied_ error. Only administrators can see all roles.
 
 ## 4.2 Where does your role come from?
 
@@ -65,8 +93,7 @@ Expected result: `mdmc-embargo` is not in the scope list, and the other two comm
 Look at the message: Rucio does not say "you cannot read it". It says that the DID does not exist **or** is outside your scopes.
 So a user without access cannot even learn that the data exists.
 
-!!! warning "Stop"
-    Stop here and wait for the instructor.
+> ⚠️ Stop here and wait for the instructor...
 
 ## 4.4 The instructor gives you access, for 15 minutes
 
@@ -86,6 +113,7 @@ rucio role account list --me --detail
 ```
 
 Expected result: two roles. `mdmc-embargo-reader` has an expiry date.
+Its permission is `r--` on `mdmc-embargo`: read only. You will test this in 4.5.
 
 ## 4.5 Read the embargoed data
 
@@ -150,7 +178,7 @@ So access follows the **data**, not the dataset that contains it. You cannot "ke
 | Who decides who is a "student"? | IAM group managers (assignable role, hourly sync) |
 | Who decides who reads embargoed data? | A Rucio administrator (non-assignable role) |
 | For how long? | Until `expires_at`; then the access stops automatically |
-| What does a role give? | `read` on a scope pattern (`mdmc-open`, or `mdmc-*` for all scopes that start with `mdmc-`) |
+| What does a role give? | `read`, `write` or `delete` access on a scope pattern (`mdmc-open`, or `mdmc-*` for all scopes that start with `mdmc-`) |
 | What does the owner of a scope have? | Full access to the scope, with no role |
 | Can a user see data that they cannot read? | No. The scope and its DIDs are hidden, also inside other datasets |
 
