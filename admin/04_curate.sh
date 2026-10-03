@@ -22,7 +22,7 @@ while IFS='|' read -r did datatype description; do
 done <<< "$DATASETS"
 
 echo "=== Second copy of the climate data on $ARCHIVE_RSE (FTS transfer)"
-if rucio rule list --did "$OPEN_SCOPE:climate" | grep -q "$ARCHIVE_RSE"; then
+if rucio rule list --did "$OPEN_SCOPE:climate" | has "$ARCHIVE_RSE"; then
   echo "SKIP  rule exists"
 else
   run rucio rule add "$OPEN_SCOPE:climate" --copies 1 --rses "$ARCHIVE_RSE" \

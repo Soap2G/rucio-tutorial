@@ -14,6 +14,8 @@ nav:
   - 4. Roles and access control: 04-rbac.md
   - 5. Wrap-up: 05-wrap-up.md
   - Cheatsheet: cheatsheet.md
+  - Rucio Workshop:
+      - 6. Demonstrator (CTAO): 06-ctao-demonstrator.md
 
 theme:
   name: material

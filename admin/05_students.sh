@@ -19,7 +19,7 @@ while read -r account _; do
   fi
 
   # The IAM sync creates the personal scope when userScopes is on; this is the fallback.
-  if rucio scope list --account "$account" | grep -qw "$account"; then
+  if rucio scope list --account "$account" | has -w "$account"; then
     echo "      scope OK"
   else
     run rucio scope add "$account" --account "$account" && echo "      scope ADDED"
@@ -30,7 +30,7 @@ while read -r account _; do
   done
   echo "      quota $STUDENT_QUOTA on $(rse_names | wc -l | tr -d " ") RSEs"
 
-  if rucio role account list --account "$account" | grep -qw "$STUDENT_ROLE"; then
+  if rucio role account list --account "$account" | has -w "$STUDENT_ROLE"; then
     echo "      role $STUDENT_ROLE OK"
   else
     echo "      role $STUDENT_ROLE MISSING (add the user to IAM data-management/roles/$STUDENT_ROLE)"

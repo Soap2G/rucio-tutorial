@@ -26,7 +26,7 @@ for spec in $RSES; do
   run rucio rse attribute "$SET" "$rse" --key site --value "$site"
   run rucio rse attribute "$SET" "$rse" --key type --value "$type"
 
-  if [ "$exists" = 1 ] && rucio rse show "$rse" 2>/dev/null | grep -q "$EOS_HOST"; then
+  if [ "$exists" = 1 ] && rucio rse show "$rse" 2>/dev/null | has "$EOS_HOST"; then
     echo "      protocol exists"
   else
     run rucio rse protocol add "$rse" \

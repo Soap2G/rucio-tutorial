@@ -17,10 +17,10 @@ check "RSE expression country=IT gives 2 RSEs" \
   bash -c "[ \$(rucio rse list --rses 'country=IT' | grep -c _) -eq 2 ]"
 
 for scope in "$OPEN_SCOPE" "$EMBARGO_SCOPE"; do
-  check "scope $scope has datasets" bash -c "rucio did list '$scope:*' --short | grep -q /"
+  check "scope $scope has datasets" bash -c "rucio did list '$scope:*' --short | has /"
 done
-check "role $STUDENT_ROLE"  bash -c "rucio role list | grep -qw $STUDENT_ROLE"
-check "role $EMBARGO_ROLE"  bash -c "rucio role list | grep -qw $EMBARGO_ROLE"
+check "role $STUDENT_ROLE"  bash -c "rucio role list | has -w $STUDENT_ROLE"
+check "role $EMBARGO_ROLE"  bash -c "rucio role list | has -w $EMBARGO_ROLE"
 
 check "no rule of root is STUCK or REPLICATING" \
   bash -c "! rucio rule list --account root | grep -E 'STUCK|REPLICATING'"
@@ -29,7 +29,7 @@ check "no rule of root is STUCK or REPLICATING" \
 sample="https://$EOS_HOST:$EOS_PORT/$EOS_BASE/$SOURCE_RSE/$OPEN_SCOPE/climate/station-trieste-2025/trieste-2025-01.csv"
 check "anonymous HTTPS read of a sample file" curl -sfI -k "$sample"   # availability only, -k: CA trust is not tested here
 check "archive copy exists on $ARCHIVE_RSE" \
-  bash -c "rucio replica list dataset '$OPEN_SCOPE:climate/station-trieste-2025/' | grep -q $ARCHIVE_RSE"
+  bash -c "rucio replica list dataset '$OPEN_SCOPE:climate/station-trieste-2025/' | has $ARCHIVE_RSE"
 
 echo "Failures: $fail"
 exit "$fail"

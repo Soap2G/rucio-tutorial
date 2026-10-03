@@ -116,6 +116,46 @@ def build(out: Path) -> list[Path]:
     return files
 
 
+# --- CTAO demonstrator: proposals -> observations -> data products ---------------------------
+
+CTAO_PROPOSALS = {  # scope: (proposal id, target, observations)
+    "ctao-prop-a": ("2026A-001", "Crab Nebula", ["obs-0101", "obs-0102"]),
+    "ctao-prop-b": ("2026A-002", "PKS 2155-304", ["obs-0201", "obs-0202"]),
+    "ctao-prop-c": ("2025A-017", "Mrk 421", ["obs-0301"]),  # proprietary period over: public
+}
+ctao_rng = random.Random(20261003)  # own seed: the mdmc data stays the same
+
+
+def fits_bytes(cards: dict, payload: bytes) -> bytes:
+    """A minimal FITS file: one 2880-byte header block, then the payload padded to 2880 bytes."""
+    lines = [f"{k:<8}= '{v:<8}'" for k, v in cards.items()]  # string cards
+    fixed = [f"{'SIMPLE':<8}= {'T':>20}", f"{'BITPIX':<8}= {8:>20}", f"{'NAXIS':<8}= {0:>20}"]
+    header = "".join(f"{line:<80}" for line in [*fixed, *lines, "END"])
+    header = header.ljust(2880 * ((len(header) + 2879) // 2880))
+    return header.encode() + payload + b"\0" * (-len(payload) % 2880)
+
+
+def build_ctao(out: Path) -> list[Path]:
+    files = []
+
+    def add(rel: str, data: bytes) -> None:
+        p = out / rel
+        write(p, data)
+        files.append(p)
+
+    for scope, (proposal, target, observations) in CTAO_PROPOSALS.items():
+        for obs in observations:
+            cards = {"TELESCOP": "CTAO-N", "OBJECT": target, "PROPOSAL": proposal, "OBS_ID": obs}
+            base = f"{scope}/observations/{obs}"
+            add(f"{base}/{obs}-dl3-events.fits", fits_bytes({**cards, "HDUCLAS1": "EVENTS"}, ctao_rng.randbytes(2 * 1024 * 1024)))
+            add(f"{base}/{obs}-dl3-irf.fits", fits_bytes({**cards, "HDUCLAS1": "RESPONSE"}, ctao_rng.randbytes(256 * 1024)))
+            add(f"{base}/{obs}-summary.json", json.dumps({
+                "proposal": proposal, "obs_id": obs, "target": target,
+                "livetime_s": ctao_rng.randint(1200, 1800), "zenith_deg": round(ctao_rng.uniform(10, 45), 1),
+            }, indent=1).encode())
+    return files
+
+
 def adler32_hex(path: Path) -> str:
     value = 1
     with path.open("rb") as f:
@@ -129,9 +169,10 @@ def main() -> None:
     ap.add_argument("--out", type=Path, required=True, help="local staging directory (its content goes to --eos-dir)")
     ap.add_argument("--eos-dir", required=True, help="EOS directory of the source RSE, e.g. /eos/.../TRIESTE_DISK")
     ap.add_argument("--dump", type=Path, default=Path("dump.jsonl"))
+    ap.add_argument("--set", choices=["mdmc", "ctao"], default="mdmc", help="mdmc: course data; ctao: workshop demonstrator")
     args = ap.parse_args()
 
-    files = build(args.out)
+    files = build(args.out) if args.set == "mdmc" else build_ctao(args.out)
     eos_dir = "/" + args.eos_dir.strip("/")
     with args.dump.open("w") as d:
         for p in files:

@@ -66,6 +66,19 @@ Read-only calls (`show`, `list`) still run; each write call is only printed. In 
 - **Step 4** starts a real FTS transfer (about 0.6 MB). `06_check.sh` fails until it is done.
 - **Custom metadata** (`description`) works only if the server has a JSON metadata plugin. The tutorial uses only `datatype`.
 
+## CTAO demonstrator (Rucio Workshop)
+
+Chapter 6 of the website. It uses the same RSEs (step 1), and its own scopes, roles and data. Settings: `ctao.env`.
+
+| Step | Command | Result |
+|---|---|---|
+| C1 | `./ctao_01_scopes_roles.sh` | Scopes `ctao-prop-a`, `ctao-prop-b`, `ctao-prop-c`, `ctao-catalogue`. Locked roles `ctao-prop-a/b/c` (read on their proposal). Role `ctao-public` (not locked), read on `ctao-catalogue` and `ctao-prop-c`. |
+| C2 | `./ctao_02_data.sh` | 15 synthetic data products (12 MB, FITS and JSON), 5 observation datasets, registered on `TRIESTE_DISK`; the mixed dataset `ctao-catalogue:search-2026-10` |
+| Live | `./ctao_embargo.sh end ctao-prop-b` | End of the proprietary period of B (chapter 6.7). `restore` puts it back for the next run. |
+
+Participants need the IAM groups `data-management`, `data-management/roles/ctao-public` and `data-management/roles/ctao-prop-a`.
+The presenter is a group manager of `ctao-prop-a` in IAM (the PI). Nobody is in `ctao-prop-b`.
+
 ## During the course
 
 See `INSTRUCTOR.md` for the timeline, the upload demo and the live RBAC step (`./embargo_access.sh grant 15` / `end`).

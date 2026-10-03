@@ -46,6 +46,8 @@ Duration: 90 minutes.
 
 A one-page summary of all commands is in the [cheatsheet](cheatsheet.md).
 
+For the Rucio Workshop, an extra chapter shows a real use case: [6. Demonstrator: observation proposals with a proprietary period](06-ctao-demonstrator.md).
+
 ## Conventions
 
 - `<account>` means your Rucio account. Type it without the `< >`.

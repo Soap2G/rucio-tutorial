@@ -5,7 +5,7 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/tutorial.env"
 
 for scope in "$OPEN_SCOPE" "$EMBARGO_SCOPE"; do
-  if rucio scope list --account "$SCOPE_OWNER" | grep -qw "$scope"; then
+  if rucio scope list --account "$SCOPE_OWNER" | has -w "$scope"; then
     echo "SKIP  scope $scope exists"
   else
     echo "ADD   scope $scope (owner $SCOPE_OWNER)"
@@ -17,7 +17,7 @@ done
 # Locked = nobody changes its permissions or deletes it by mistake during the course.
 add_role () {
   local name="$1" assignable="$2" scope="$3" description="$4"
-  if rucio role list | grep -qw "$name"; then
+  if rucio role list | has -w "$name"; then
     echo "SKIP  role $name exists"
     return
   fi
