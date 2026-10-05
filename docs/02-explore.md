@@ -108,7 +108,7 @@ rucio rule list --did mdmc-open:climate/station-trieste-2025/ --traverse
 ```
 
 `--traverse` also looks at the parents of the DID.
-Expected result: two rules of the account `root`:
+Expected result: two rules of an administrator account (the tutorial organisers):
 - one on the dataset, for `TRIESTE_DISK` (the original copy);
 - one on the parent container `mdmc-open:climate`, for `GENEVA_ARCHIVE` (the "preservation copy"). A rule on a container covers all the datasets in it.
 

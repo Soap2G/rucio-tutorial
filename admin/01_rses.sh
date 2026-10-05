@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Step 1: create the tutorial RSEs, their protocol, attributes, distances and root limits.
+# Step 1: create the tutorial RSEs, their protocol, attributes, distances, and unlimited quota for root and the account that runs the admin steps.
 # Run as root (or an account with the admin attribute).
 # Safe to run again: a missing RSE is created, and an existing RSE is completed (attributes, protocol, limit).
 set -euo pipefail
@@ -36,7 +36,10 @@ for spec in $RSES; do
       --domain-json "$DOMAINS"
   fi
 
-  run rucio account limit "$SET" root --rse "$rse" --bytes infinity
+  # The admin rules (steps 3 and 4) belong to the account that runs them: root, or your admin account.
+  for owner in root ${TUTORIAL_ACCOUNT:-}; do
+    run rucio account limit "$SET" "$owner" --rse "$rse" --bytes infinity
+  done
 done
 
 echo "Distances (all pairs, 1)"

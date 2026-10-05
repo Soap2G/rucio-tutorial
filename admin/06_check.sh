@@ -22,8 +22,8 @@ done
 check "role $STUDENT_ROLE"  bash -c "rucio role list | has -w $STUDENT_ROLE"
 check "role $EMBARGO_ROLE"  bash -c "rucio role list | has -w $EMBARGO_ROLE"
 
-check "no rule of root is STUCK or REPLICATING" \
-  bash -c "! rucio rule list --account root | grep -E 'STUCK|REPLICATING'"
+check "no tutorial rule of $TUTORIAL_ACCOUNT is STUCK or REPLICATING" \
+  bash -c "! rucio rule list --account $TUTORIAL_ACCOUNT | grep -E 'mdmc-.*(STUCK|REPLICATING)'"
 
 # Students download anonymously over HTTPS: the storage must answer without a credential.
 sample="https://$EOS_HOST:$EOS_PORT/$EOS_BASE/$SOURCE_RSE/$OPEN_SCOPE/climate/station-trieste-2025/trieste-2025-01.csv"

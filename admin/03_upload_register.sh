@@ -39,4 +39,4 @@ rucio-it-register --rse-name "$SOURCE_RSE" --dump-file "$DUMP" --rule --batch-si
 
 echo "=== Check"
 rucio did list "$OPEN_SCOPE:*" --filter 'type=all' --short | head -20
-rucio rule list --account root
+rucio rule list --account "$TUTORIAL_ACCOUNT"

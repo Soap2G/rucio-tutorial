@@ -54,9 +54,9 @@ Read-only calls (`show`, `list`) still run; each write call is only printed. In 
 
 | Step | Command | When | Result |
 |---|---|---|---|
-| 1 | `./01_rses.sh` | once | 4 RSEs, protocol, attributes, distances, unlimited quota for `root` |
+| 1 | `./01_rses.sh` | once | 4 RSEs, protocol, attributes, distances, unlimited quota for `root` and for the admin account that runs the steps |
 | 2 | `./02_scopes_roles.sh` | once | 2 scopes, 2 locked roles |
-| 3 | `./03_upload_register.sh` | once | Data generated, copied to `TRIESTE_DISK`, registered with one rule per dataset (owner `root`, no lifetime). Asks for confirmation after a dry run. |
+| 3 | `./03_upload_register.sh` | once | Data generated, copied to `TRIESTE_DISK`, registered with one rule per dataset (owner: the admin account that runs the step, no lifetime). Asks for confirmation after a dry run. |
 | 4 | `./04_curate.sh` | once | Datasets closed, `datatype` metadata, rule that copies `mdmc-open:climate` to `GENEVA_ARCHIVE` |
 | 5 | `./05_students.sh` | after the students are in IAM; again on the day before | Personal scope (if missing), quotas, role check per student. Needs `students.txt` (copy `students.txt.example`). |
 | 6 | `./06_check.sh` | the day before and 1 hour before the course | Read-only readiness check. All lines must be `OK`. |
@@ -94,5 +94,5 @@ source tutorial.env
 while read -r a _; do [[ -z "$a" || "$a" == \#* ]] && continue
   rucio role account remove "$EMBARGO_ROLE" "$a" --force; done < students.txt
 # To remove all tutorial data: remove the root rules; the reaper then deletes the replicas.
-rucio rule list --account root | grep -E "mdmc-(open|embargo)"   # check first
+rucio rule list --account <admin account that ran steps 3 and 4> | grep -E "mdmc-(open|embargo)"   # check first
 ```
