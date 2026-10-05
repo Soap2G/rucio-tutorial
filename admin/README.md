@@ -40,7 +40,9 @@ container `<topic>`, container `<topic>/<collection>`, dataset `<topic>/<collect
 3. **Registration tool.** `rucio-it-register` from `rucio-it-tools`:
    `pip install git+https://gitlab.cern.ch/rucio-it/rucio-tools.git`
 4. **Host.** Step 3 needs the EOS FUSE mount and write access to `/eos/workspace/r/rucioit/rbac-tutorial` (for example lxplus).
-5. **IAM.** Each student is in the IAM group `data-management` and in the subgroup `data-management/roles/mdmc-student`. The hourly IAM sync then makes the account, the identity, the personal scope (`userScopes`) and the `mdmc-student` role.
+5. **IAM.** Each student is in the IAM group `data-management` and in the subgroup `data-management/roles/mdmc-student`. The hourly IAM sync then makes the account, the identity and the `mdmc-student` role.
+   - The personal scope (`<account>`) is made by step 5. If `iamSync.userScopes` is on, the sync makes it first and step 5 only checks it. The test student account must also be in `students.txt`.
+   - Check that students are NOT in the IAM groups of other roles on rbac-test. For example, `moderator` gives `read` on `*` and would show them all scopes.
    - The IAM sync must NOT manage quotas (`iamSync.quotas` empty). If it does, it removes the limits from step 5 at the next run.
 
 ## Steps

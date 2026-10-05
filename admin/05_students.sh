@@ -18,7 +18,7 @@ while read -r account _; do
     continue
   fi
 
-  # The IAM sync creates the personal scope when userScopes is on; this is the fallback.
+  # Personal scope. If iamSync.userScopes is on, the sync has made it already.
   if rucio scope list --account "$account" | has -w "$account"; then
     echo "      scope OK"
   else
