@@ -8,7 +8,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/tutorial.env"
 DOMAINS='{"lan": {"read": 1, "write": 1, "delete": 1}, "wan": {"read": 1, "write": 1, "delete": 1, "third_party_copy_read": 1, "third_party_copy_write": 1}}'
 
 for spec in $RSES; do
-  IFS=: read -r rse country site type <<< "$spec"
+  IFS=: read -r rse country site type ep <<< "$spec"
+  read -r host base <<< "$(endpoint "$ep")"
 
   if rucio rse show "$rse" > /dev/null 2>&1; then
     echo "OK    $rse exists; checking its settings"
@@ -26,12 +27,19 @@ for spec in $RSES; do
   run rucio rse attribute "$SET" "$rse" --key site --value "$site"
   run rucio rse attribute "$SET" "$rse" --key type --value "$type"
 
-  if [ "$exists" = 1 ] && rucio rse show "$rse" 2>/dev/null | has "$EOS_HOST"; then
-    echo "      protocol exists"
+  # https protocol: keep it if host and prefix are correct; else replace it (e.g. move to pilot).
+  old_host=""
+  [ "$exists" = 1 ] && old_host="$(rucio rse show "$rse" 2>/dev/null | awk '$1 == "hostname:" {print $2; exit}')"
+  if [ -n "$old_host" ] && [ "$old_host" = "$host" ] && rucio rse show "$rse" 2>/dev/null | has -F "prefix: /$base/$rse"; then
+    echo "      protocol OK ($host)"
   else
+    if [ -n "$old_host" ]; then
+      echo "      replace protocol $old_host -> $host"
+      run rucio rse protocol remove "$rse" --scheme https "$HOSTNAME_OPT" "$old_host" --port "$EOS_PORT"
+    fi
     run rucio rse protocol add "$rse" \
-      "$HOSTNAME_OPT" "$EOS_HOST" --scheme https --port "$EOS_PORT" \
-      --prefix "/$EOS_BASE/$rse" \
+      "$HOSTNAME_OPT" "$host" --scheme https --port "$EOS_PORT" \
+      --prefix "/$base/$rse" \
       --impl rucio.rse.protocols.gfal.Default \
       --domain-json "$DOMAINS"
   fi
