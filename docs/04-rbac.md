@@ -5,7 +5,7 @@ A data manager must be able to say: "this group can read these data, until this 
 
 This Rucio instance uses **role-based access control (RBAC)**:
 
-```
+```{ .text .diagram }
 ┌─────────┐  has   ┌──────┐  grants   ┌───────────────────────────┐
 │ account │───────>│ role │──────────>│        permission         │
 └─────────┘   │    └──────┘           │ operation + scope pattern │

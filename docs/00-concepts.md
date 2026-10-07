@@ -12,15 +12,22 @@ Rucio started at CERN for the ATLAS experiment (more than 1 exabyte of data). To
 
 ## The data model
 
-```
- account ──owns──▶ scope
-                     │
-                     ▼
-      container ──▶ dataset ──▶ file  ─── replica on an RSE
-       (folder      (set of     (the data)    (a physical copy)
-        of sets)     files)
-                     ▲
-          rule ──────┘  "keep N copies of this DID on these RSEs"
+```{ .text .diagram }
+                     owns
+        ┌─────────┐        ┌───────┐
+        │ account │───────>│ scope │
+        └─────────┘        └───┬───┘
+                               │ contains
+                               ▼
+┌─────────────────┐    ┌──────────────┐    ┌──────────┐    ┌─────────────────┐
+│    container    │───>│   dataset    │───>│   file   │───>│     replica     │
+│(set of datasets)│    │(set of files)│    │(the data)│    │(a physical copy)│
+└─────────────────┘    └──────────────┘    └──────────┘    └─────────────────┘
+                               ▲
+                               │ "keep N copies of this DID on these RSEs"
+                            ┌──┴───┐
+                            │ rule │
+                            └──────┘
 ```
 
 | Concept | Meaning | Example |

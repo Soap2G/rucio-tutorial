@@ -2,3 +2,5 @@ admin/work/
 admin/students.txt
 downloads/
 __pycache__/
+.venv/
+site/

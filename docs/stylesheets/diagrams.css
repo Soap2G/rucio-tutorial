@@ -1,0 +1,13 @@
+/* Box-drawing diagrams: Roboto Mono (the theme's code font) lacks these glyphs,
+   so the browser falls back to a font with different widths and the lines drift.
+   JetBrains Mono is self-hosted because the Google Fonts version is subset and
+   also drops the box-drawing range (U+2500-257F). */
+@font-face {
+  font-family: "JetBrains Mono Diagram";
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+.md-typeset .diagram code {
+  font-family: "JetBrains Mono Diagram", monospace;
+}
