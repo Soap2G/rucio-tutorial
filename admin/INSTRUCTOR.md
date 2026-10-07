@@ -16,7 +16,7 @@
 
 1. `./05_students.sh`: all accounts, scopes, quotas and the `mdmc-student` role are present.
 2. `./06_check.sh`: all lines are `OK`.
-3. Log in with a test student account in SWAN and do chapters 1 and 2 quickly. This tests CVMFS, the login and the download in the real environment.
+3. Log in with a test student account and do chapters 1 and 2 quickly. This tests the client, the login and the download in the real environment. Do it **for each way that students will use**: in SWAN (this tests CVMFS) and with the Docker image (this tests the image and the certificate step on the home page).
 
 ## Upload demo (chapter 3.7)
 

@@ -1,6 +1,12 @@
 # 1. Log in (5 min)
 
-You did `source setup.sh <account>` on the [home page](index.md). If not, do it now.
+=== "Docker image"
+
+    You started the container and did steps 2 and 3 on the [home page](index.md). If not, do it now.
+
+=== "CERN VRE (SWAN)"
+
+    You did `source setup.sh <account>` on the [home page](index.md). If not, do it now.
 
 ## 1.1 Who am I?
 
@@ -57,6 +63,7 @@ The CLI has the form `rucio <object> <action>`, for example `rucio did list` or 
 | `Cannot retrieve authentication token!` | You did not finish the login in 3 minutes | Run the command again and open the link at once |
 | A login link appears, but you logged in less than an hour ago | Some commands that are **refused** (for example creating a DID in a scope that is not yours) look like an expired login to the client | Press `Ctrl+C`. Do not log in again: the command is not allowed for your account |
 | The account cannot be found or does not exist | Wrong account name, or your account is not created yet | Check your IAM username; ask the instructor |
-| `command not found: rucio` | The terminal is not set up | `source setup.sh <account>` |
+| `command not found: rucio` | The terminal is not set up. In Docker: you are outside the container | SWAN: `source setup.sh <account>`. Docker: run the `docker run` command of the home page |
+| `Server certificate verification failed: issuer is not trusted` | Docker only: the certificate step was skipped | Do step 2 of the [home page](index.md) again |
 
 Next: [2. Explore the data](02-explore.md)

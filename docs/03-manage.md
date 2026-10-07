@@ -1,6 +1,6 @@
 # 3. Manage data with datasets and rules (25 min)
 
-In this chapter and the next, `$ME` is your Rucio account. `setup.sh` sets it. Check it:
+In this chapter and the next, `$ME` is your Rucio account. You set it on the [home page](index.md) (`setup.sh` in SWAN, `export ME=…` in Docker). Check it:
 
 ```bash
 echo $ME
@@ -31,7 +31,13 @@ rucio download mdmc-open:imaging/microscopy-batch-01/ --nrandom 2
 
 Now try `--rses GENEVA_ARCHIVE` with `mdmc-open:humanities/archive-catalogue/`. It fails, because no replica of that dataset is on `GENEVA_ARCHIVE` (look again at 2.5).
 
-> If `rucio download` stops with an error about `gfal2`, tell the instructor. It is a problem of the SWAN environment, not of your command.
+=== "Docker image"
+
+    If `rucio download` stops with an error about a certificate (`issuer is not trusted`), do step 2 of the [home page](index.md) again.
+
+=== "CERN VRE (SWAN)"
+
+    If `rucio download` stops with an error about `gfal2`, tell the instructor. It is a problem of the SWAN environment, not of your command.
 
 **Exercise 3.1.** Download one image of the microscopy batch and open it in the JupyterLab file browser.
 

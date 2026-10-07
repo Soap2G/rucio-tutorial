@@ -21,6 +21,7 @@ theme:
   name: material
   features:
     - content.code.copy
+    - content.tabs.link
     - navigation.footer
     - navigation.top
     - toc.follow
@@ -50,3 +51,5 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
