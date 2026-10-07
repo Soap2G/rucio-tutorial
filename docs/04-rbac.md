@@ -59,7 +59,16 @@ You can see the permissions of a role that you are granted to:
 rucio role permission list mdmc-student
 ```
 
-Expected result: a read permission on scope `mdmc-open`.
+Expected result: a read permission on scope `mdmc-open` (`r--` means read, not write, not delete):
+
+```
+Permissions associated with role 'mdmc-student':
++-----------------+----------------+
+| SCOPE PATTERN   | OPERATION(S)   |
+|-----------------+----------------|
+| mdmc-open       | r--            |
++-----------------+----------------+
+```
 
 If a scope pattern has a `*` (for example `mdmc-*`), add `--detail` to see the scopes that it matches now.
 
@@ -128,13 +137,8 @@ head -3 mdmc-embargo/survey/wave-2026/responses-part1.csv
 
 All of these work now.
 
-But the role gives **read** access only:
-
-```bash
-rucio did add --type dataset mdmc-embargo:$ME-copy
-```
-
-Expected result: an access error. Only the owner of `mdmc-embargo` can change it.
+But the role gives **read** access only. You still cannot create DIDs in `mdmc-embargo`: only the owner of a scope can.
+(If you try, Rucio refuses it and the client shows a new login link; press `Ctrl+C`, see chapter 1.)
 
 ## 4.6 Put an embargoed file in your own dataset
 

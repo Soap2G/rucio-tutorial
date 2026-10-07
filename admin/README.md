@@ -9,7 +9,7 @@ Instance: `https://rbac-test-server.rucioit.cern.ch` (Rucio 41.1.1, policy packa
 | Item | Value |
 |---|---|
 | RSEs | `TRIESTE_DISK`, `BOLOGNA_DISK`, `GENEVA_DISK`, `GENEVA_ARCHIVE` |
-| Storage | Source `TRIESTE_DISK`: `https://eospublic.cern.ch:8444//eos/workspace/r/rucioit/rbac-tutorial/TRIESTE_DISK` (the admin writes with rsync). Destinations `BOLOGNA_DISK`, `GENEVA_DISK`, `GENEVA_ARCHIVE`: `https://eospilot.cern.ch:8444//eos/pilot/eulake/rbac-tutorial/<RSE>` (FTS writes with the ESCAPE robot certificate, which has no write access on the workspace). |
+| Storage | Source `TRIESTE_DISK`: `https://eospublic.cern.ch:8444//eos/workspace/r/rucioit/rbac-tutorial/TRIESTE_DISK` (the admin writes with rsync). Destinations `BOLOGNA_DISK`, `GENEVA_DISK`, `GENEVA_ARCHIVE`: `https://eospilot.cern.ch:8444//eos/pilot/eulake/eosc/rbac-tutorial/<RSE>` (FTS writes with the ESCAPE robot certificate, which has no write access on the workspace). |
 | RSE attributes | `country` (IT, CH), `site`, `type` (DISK, ARCHIVE), `lfn2pfn_algorithm=identity`, `fts` |
 | Scopes | `mdmc-open` (shared data), `mdmc-embargo` (restricted data), one personal scope per student |
 | Roles | `mdmc-student`: assignable, `read` on `mdmc-open`, comes from IAM. `mdmc-embargo-reader`: not assignable, `read` on `mdmc-embargo`, granted by the instructor during the course |
@@ -36,7 +36,7 @@ container `<topic>`, container `<topic>/<collection>`, dataset `<topic>/<collect
 ## Prerequisites
 
 1. **Storage.** The four RSE directories exist on EOS (done). The FTS service account can write and delete in them.
-2. **Client.** A Rucio client with the RBAC commands (`rucio role ...`), configured as `root` (or an account with the `admin` attribute). The CVMFS stack `rucio/41.1.1-rbac` has this client. Use your own `root` configuration, not the student configuration.
+2. **Client.** A Rucio client with the RBAC commands (`rucio role ...`), configured as `root` (or an account with the `admin` attribute). The CVMFS stack `rucio/41.1.1-rbac-7273054bfdc4` has this client. Use your own `root` configuration, not the student configuration.
 3. **Registration tool.** `rucio-it-register` from `rucio-it-tools`:
    `pip install git+https://gitlab.cern.ch/rucio-it/rucio-tools.git`
 4. **Host.** Step 3 needs the EOS FUSE mount and write access to `/eos/workspace/r/rucioit/rbac-tutorial` (for example lxplus).

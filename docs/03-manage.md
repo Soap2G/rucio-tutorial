@@ -31,7 +31,7 @@ rucio download mdmc-open:imaging/microscopy-batch-01/ --nrandom 2
 
 Now try `--rses GENEVA_ARCHIVE` with `mdmc-open:humanities/archive-catalogue/`. It fails, because no replica of that dataset is on `GENEVA_ARCHIVE` (look again at 2.5).
 
-> If you see an error about `gfal2`, add `--impl webdav` to the command.
+> If `rucio download` stops with an error about `gfal2`, tell the instructor. It is a problem of the SWAN environment, not of your command.
 
 **Exercise 3.1.** Download one image of the microscopy batch and open it in the JupyterLab file browser.
 
@@ -56,13 +56,11 @@ rucio did metadata set $ME:summer-2025 --key datatype --value csv
 rucio did metadata list $ME:summer-2025
 ```
 
-You can make datasets only in your own scope. Try it in the shared scope:
+You can create datasets only in a scope that you **own**: your own scope. The scope `mdmc-open` belongs to another account.
 
-```bash
-rucio did add --type dataset mdmc-open:$ME-test
-```
-
-Expected result: an access error. The scope `mdmc-open` belongs to another account.
+!!! warning "Do not try it"
+    If you create a DID in a scope that is not yours, Rucio refuses it. In this Rucio version, the client then shows a new
+    login link, as if your login had expired. If this happens, press `Ctrl+C`. Do not log in again.
 
 ## 3.3 Make a copy with a rule
 

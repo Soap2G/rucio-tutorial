@@ -12,14 +12,14 @@
 | Metadata | `rucio did metadata list <did>` / `rucio did metadata set <did> --key K --value V` |
 | Replicas of a dataset | `rucio replica list dataset <did>` |
 | Replicas of a file, with addresses | `rucio replica list file <did> --pfns` |
-| Download | `rucio download <did> [--rses <expr>] [--nrandom N] [--impl webdav]` |
+| Download | `rucio download <did> [--rses <expr>] [--nrandom N]` |
 | New dataset | `rucio did add --type dataset <my-scope>:<name>` |
 | Add files to a dataset | `rucio did content add --to-did <dataset> <did> [<did> ...]` |
 | Close a dataset | `rucio did update --close <dataset>` |
 | New rule | `rucio rule add <did> --copies N --rses '<expr>' --lifetime <seconds>` |
 | Rule state | `rucio rule show <rule-id>` (`--examine` for transfer errors) |
 | My rules | `rucio rule list --account $ME` |
-| Rules for a DID (and its parents) | `rucio rule list --did <did> --traverse` |
+| Rules for a DID | `rucio rule list --did <did>` (for the parents, run it again with the parent DID) |
 | Remove a rule | `rucio rule remove <rule-id>` |
 | Quota and usage | `rucio account limit list $ME` |
 | My roles | `rucio role account list --me --detail` |

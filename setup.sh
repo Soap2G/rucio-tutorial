@@ -6,7 +6,7 @@
 #
 # Your Rucio account is your IAM username.
 
-RUCIO_STACK="${RUCIO_STACK:-/cvmfs/sw.escape.eu/rucio/41.1.1-rbac}"
+RUCIO_STACK="${RUCIO_STACK:-/cvmfs/sw.escape.eu/rucio/41.1.1-rbac-7273054bfdc4}"
 
 if [ -z "$1" ] && [ -z "$RUCIO_ACCOUNT" ]; then
     echo "Usage: source setup.sh <your-rucio-account>"
@@ -25,5 +25,5 @@ export TUTORIAL_HOME="$( cd "$( dirname "${BASH_SOURCE[0]:-$0}" )" && pwd )"
 mkdir -p "$TUTORIAL_HOME/downloads"
 
 if ! "$RUCIO_PYTHONBIN" -c "import gfal2" 2>/dev/null; then
-    echo "NOTE: gfal2 is not available in this Python. Add '--impl webdav' to 'rucio download'."
+    echo "NOTE: gfal2 is not available in this Python. 'rucio download' will not work: tell the instructor."
 fi
